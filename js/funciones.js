@@ -1,118 +1,41 @@
-let num1 = "";
-let num2 = "";
-let operator = "";
-let result = 0;
+var ca = {
+    teclas: document.querySelectorAll("#calcular ul li"),
+    accion: null,
+    digito: null,
+    operacion: document.querySelector("#operaciones"),
+    resultado: false,
+    cantidecimal: false,
+    cantisignos: 0
+};
 
-function add() {
-  result = parseFloat(num1) + parseFloat(num2);
-}
+var me = {
+    inicio: function() {
+        for (var i = 0; i < ca.teclas.length; i++) {
+            ca.teclas[i].addEventListener("click", me.oprimirteclas);
+        }
+    },
 
-function subtract() {
-  result = parseFloat(num1) - parseFloat(num2);
-}
+    oprimirteclas: function(evento) {
+        ca.accion = evento.target.getAttribute("class");
+        ca.digito = evento.target.innerHTML;
+        me.calculadora(ca.accion, ca.digito);
+    },
 
-function multiply() {
-  result = parseFloat(num1) * parseFloat(num2);
-}
+    calculadora: function(accion, digito) {
+        ca.cantisignos = 0;
 
-function divide() {
-  result = parseFloat(num1) / parseFloat(num2);
-}
+        switch (accion) {
+            case "numero":
+                if (ca.operacion.innerHTML === "0") {
+                    ca.operacion.innerHTML = digito;
+                } else {
+                    ca.operacion.innerHTML += digito;
+                }
+                break;
 
-function updateResult() {
-  document.getElementById("result").innerHTML = result;
-}
+            
+        }
+    }
+};
 
-function clear() {
-  num1 = "";
-  num2 = "";
-  operator = "";
-  result = 0;
-  updateResult();
-}
-
-function calculate() {
-  switch (operator) {
-    case "+":
-      add();
-      break;
-    case "-":
-      subtract();
-      break;
-    case "*":
-      multiply();
-      break;
-    case "/":
-      divide();
-      break;
-  }
-  updateResult();
-}
-
-function addNum(num) {
-  if (operator === "") {
-    num1 += num;
-  } else {
-    num2 += num;
-  }
-  updateResult();
-}
-
-function addOperator(op) {
-  if (operator !== "") {
-    calculate();
-  }
-  operator = op;
-}
-
-document.getElementById("clear").addEventListener("click", clear);
-
-document.getElementById("equals").addEventListener("click", calculate);
-
-document.getElementById("add").addEventListener("click", function() {
-  addOperator("+");
-});
-
-document.getElementById("subtract").addEventListener("click", function() {
-  addOperator("-");
-});
-
-document.getElementById("multiply").addEventListener("click", function() {
-  addOperator("*");
-});
-
-document.getElementById("divide").addEventListener("click", function() {
-  addOperator("/");
-});
-
-document.getElementById("num0").addEventListener("click", function() {
-  addNum("0");
-});
-
-document.getElementById("num1").addEventListener("click", function() {
-  addNum("1");
-});
-
-document.getElementById("num2").addEventListener("click", function() {
-  addNum("2");
-});
-
-document.getElementById("num3").addEventListener("click", function() {
-  addNum("3");
-});
-
-document.getElementById("num4").addEventListener("click", function() {
-  addNum("4");
-});
-
-document.getElementById("num5").addEventListener("click", function() {
-  addNum("5");
-});
-
-document.getElementById("num6").addEventListener("click", function() {
-  addNum("6");
-});
-
-document.getElementById("num7").addEventListener("click", function() {
-  addNum("7");
-});
+me.inicio();
